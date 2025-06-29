@@ -8,9 +8,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Bell, MapPin, Clock, User, Car, Award, CheckCircle, XCircle, Camera } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const VolunteerPortal = () => {
   const { isAuthenticated, user } = useAuth();
+  const isMobile = useIsMobile();
   const [isActive, setIsActive] = useState(true);
   const [notifications, setNotifications] = useState([
     {
@@ -97,9 +99,22 @@ const VolunteerPortal = () => {
       <div className="gradient-bg text-white py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold">Volunteer Portal</h1>
-              <p className="text-orange-100">Welcome back, {volunteerProfile.name}!</p>
+            <div className="flex items-center space-x-4">
+              <div>
+                <h1 className="text-3xl font-bold">Volunteer Portal</h1>
+                <p className="text-orange-100">Welcome back, {volunteerProfile.name}!</p>
+              </div>
+              {isMobile && (
+                <div className="flex items-center space-x-2 ml-4">
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-sm">
+                    <div className="font-medium">{volunteerProfile.name}</div>
+                    <div className="text-orange-100 text-xs">⭐ {volunteerProfile.rating}</div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
@@ -119,66 +134,68 @@ const VolunteerPortal = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Profile Section */}
-          <div className="lg:col-span-1">
-            <Card className="shadow-lg">
-              <CardHeader className="bg-blue-600 text-white">
-                <CardTitle className="flex items-center">
-                  <User className="w-5 h-5 mr-2" />
-                  Volunteer Profile
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <User className="w-10 h-10 text-blue-600" />
+        <div className={`grid gap-8 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-3'}`}>
+          {/* Profile Section - Hidden on Mobile */}
+          {!isMobile && (
+            <div className="lg:col-span-1">
+              <Card className="shadow-lg">
+                <CardHeader className="bg-blue-600 text-white">
+                  <CardTitle className="flex items-center">
+                    <User className="w-5 h-5 mr-2" />
+                    Volunteer Profile
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <User className="w-10 h-10 text-blue-600" />
+                      </div>
+                      <h3 className="text-xl font-semibold">{volunteerProfile.name}</h3>
+                      <p className="text-gray-600">{volunteerProfile.phone}</p>
                     </div>
-                    <h3 className="text-xl font-semibold">{volunteerProfile.name}</h3>
-                    <p className="text-gray-600">{volunteerProfile.phone}</p>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Vehicle:</span>
-                      <div className="flex items-center">
-                        <Car className="w-4 h-4 mr-1" />
-                        <span className="font-medium">{volunteerProfile.vehicleType}</span>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Vehicle:</span>
+                        <div className="flex items-center">
+                          <Car className="w-4 h-4 mr-1" />
+                          <span className="font-medium">{volunteerProfile.vehicleType}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Vehicle No:</span>
+                        <span className="font-medium">{volunteerProfile.vehicleNumber}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Deliveries:</span>
+                        <span className="font-bold text-orange-600">{volunteerProfile.completedDeliveries}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Rating:</span>
+                        <span className="font-bold text-green-600">⭐ {volunteerProfile.rating}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Certificates:</span>
+                        <div className="flex items-center">
+                          <Award className="w-4 h-4 mr-1 text-yellow-500" />
+                          <span className="font-medium">{volunteerProfile.certificates}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Vehicle No:</span>
-                      <span className="font-medium">{volunteerProfile.vehicleNumber}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Deliveries:</span>
-                      <span className="font-bold text-orange-600">{volunteerProfile.completedDeliveries}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Rating:</span>
-                      <span className="font-bold text-green-600">⭐ {volunteerProfile.rating}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Certificates:</span>
-                      <div className="flex items-center">
-                        <Award className="w-4 h-4 mr-1 text-yellow-500" />
-                        <span className="font-medium">{volunteerProfile.certificates}</span>
-                      </div>
-                    </div>
-                  </div>
 
-                  <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600">
-                    <Award className="w-4 h-4 mr-2" />
-                    View Certificates
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                    <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600">
+                      <Award className="w-4 h-4 mr-2" />
+                      View Certificates
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* Notifications and Requests */}
-          <div className="lg:col-span-2">
+          <div className={isMobile ? 'col-span-1' : 'lg:col-span-2'}>
             <Card className="shadow-lg">
               <CardHeader className="bg-orange-500 text-white">
                 <CardTitle className="flex items-center">
@@ -220,7 +237,7 @@ const VolunteerPortal = () => {
                             </Badge>
                           </div>
                           
-                          <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-3">
+                          <div className={`grid gap-4 text-sm text-gray-600 mb-3 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
                             <div className="flex items-center">
                               <MapPin className="w-4 h-4 mr-1" />
                               {notification.location}
@@ -238,7 +255,7 @@ const VolunteerPortal = () => {
                           </div>
 
                           {notification.status === 'pending' && isActive && (
-                            <div className="flex space-x-2">
+                            <div className={`flex space-x-2 ${isMobile ? 'flex-col space-y-2 space-x-0' : ''}`}>
                               <Button
                                 onClick={() => handleRequestAction(notification.id, 'accept')}
                                 className="bg-green-500 hover:bg-green-600 flex items-center"
@@ -258,7 +275,7 @@ const VolunteerPortal = () => {
                           )}
 
                           {notification.status === 'accepted' && (
-                            <div className="flex space-x-2">
+                            <div className={`flex space-x-2 ${isMobile ? 'flex-col space-y-2 space-x-0' : ''}`}>
                               <Button
                                 onClick={() => openMaps(notification.location)}
                                 className="bg-blue-500 hover:bg-blue-600 flex items-center"
