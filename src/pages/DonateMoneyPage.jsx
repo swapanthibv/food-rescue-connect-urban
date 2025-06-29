@@ -51,7 +51,7 @@ const DonateMoneyPage = () => {
     { value: '₹25,000', description: 'funds community kitchen for a week' },
   ];
 
-  const handleDonate = (amount: number) => {
+  const handleDonate = (amount) => {
     // In a real app, this would integrate with payment gateway
     alert(`Redirecting to payment gateway for ₹${amount}`);
   };

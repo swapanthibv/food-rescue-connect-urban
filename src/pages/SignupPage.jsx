@@ -20,10 +20,10 @@ const SignupPage = () => {
     phone: '',
     password: '',
     confirmPassword: '',
-    userType: 'donor' as 'donor' | 'volunteer',
+    userType: 'donor',
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -81,7 +81,7 @@ const SignupPage = () => {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -111,7 +111,7 @@ const SignupPage = () => {
               {/* User Type Selection */}
               <div className="space-y-2">
                 <Label className="text-base font-medium">I want to:</Label>
-                <Select value={formData.userType} onValueChange={(value: 'donor' | 'volunteer') => handleInputChange('userType', value)}>
+                <Select value={formData.userType} onValueChange={(value) => handleInputChange('userType', value)}>
                   <SelectTrigger className="w-full h-12">
                     <SelectValue />
                   </SelectTrigger>

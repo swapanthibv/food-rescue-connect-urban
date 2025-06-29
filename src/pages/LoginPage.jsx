@@ -17,10 +17,10 @@ const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    userType: 'donor' as 'donor' | 'volunteer',
+    userType: 'donor',
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -57,7 +57,7 @@ const LoginPage = () => {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -87,7 +87,7 @@ const LoginPage = () => {
               {/* User Type Selection */}
               <div className="space-y-2">
                 <Label className="text-base font-medium">I am a:</Label>
-                <Select value={formData.userType} onValueChange={(value: 'donor' | 'volunteer') => handleInputChange('userType', value)}>
+                <Select value={formData.userType} onValueChange={(value) => handleInputChange('userType', value)}>
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>

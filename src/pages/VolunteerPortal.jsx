@@ -49,7 +49,7 @@ const VolunteerPortal = () => {
     return <Navigate to="/login" replace />;
   }
 
-  const handleRequestAction = (id: number, action: 'accept' | 'reject') => {
+  const handleRequestAction = (id, action) => {
     setNotifications(prev =>
       prev.map(notif =>
         notif.id === id ? { ...notif, status: action === 'accept' ? 'accepted' : 'rejected' } : notif
@@ -70,7 +70,7 @@ const VolunteerPortal = () => {
     }
   };
 
-  const openMaps = (location: string) => {
+  const openMaps = (location) => {
     // Simulate opening maps - in real app would integrate with Google Maps/other mapping service
     toast({
       title: "Opening Maps",
@@ -78,7 +78,7 @@ const VolunteerPortal = () => {
     });
   };
 
-  const markDeliveryComplete = (id: number) => {
+  const markDeliveryComplete = (id) => {
     toast({
       title: "Delivery Completed",
       description: "Thank you for completing the delivery! Points have been added to your account.",

@@ -21,7 +21,7 @@ const VolunteerPage = () => {
     vehicleNumber: '',
     vehicleType: '',
     serviceableLocations: '',
-    vehicleDocuments: null as File | null,
+    vehicleDocuments: null,
   });
 
   if (!isAuthenticated) {
@@ -32,18 +32,18 @@ const VolunteerPage = () => {
     return <Navigate to="/volunteer-portal" replace />;
   }
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       setFormData(prev => ({ ...prev, vehicleDocuments: file }));
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 

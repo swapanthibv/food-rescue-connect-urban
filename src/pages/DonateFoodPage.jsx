@@ -23,18 +23,18 @@ const DonateFoodPage = () => {
     pickupTime: '',
     location: '',
     foodCondition: '',
-    foodImage: null as File | null,
+    foodImage: null,
   });
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       setFormData(prev => ({ ...prev, foodImage: file }));
@@ -56,7 +56,7 @@ const DonateFoodPage = () => {
     return `${hours}h ${minutes}m from now`;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 

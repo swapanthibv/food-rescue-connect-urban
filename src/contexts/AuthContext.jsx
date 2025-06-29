@@ -1,23 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  userType: 'donor' | 'volunteer' | null;
-  login: (email: string, password: string, type?: 'donor' | 'volunteer') => Promise<boolean>;
-  signup: (userData: any, type: 'donor' | 'volunteer') => Promise<boolean>;
-  logout: () => void;
-  isAuthenticated: boolean;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -27,9 +11,9 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [userType, setUserType] = useState<'donor' | 'volunteer' | null>(null);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [userType, setUserType] = useState(null);
 
   useEffect(() => {
     // Load user from localStorage on app start
@@ -37,11 +21,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const savedUserType = localStorage.getItem('userType');
     if (savedUser && savedUserType) {
       setUser(JSON.parse(savedUser));
-      setUserType(savedUserType as 'donor' | 'volunteer');
+      setUserType(savedUserType);
     }
   }, []);
 
-  const login = async (email: string, password: string, type: 'donor' | 'volunteer' = 'donor'): Promise<boolean> => {
+  const login = async (email, password, type = 'donor') => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -67,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signup = async (userData: any, type: 'donor' | 'volunteer'): Promise<boolean> => {
+  const signup = async (userData, type) => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
